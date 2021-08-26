@@ -17,11 +17,11 @@ typedef struct veiculo
     char placa[8];
 }TP_VEICULO;
 
-
+int qtd = 3;
 int contador_cadastro=0;
-void cadastrar()
+TP_VEICULO cadastrar()
 {
-    TP_VEICULO car;
+    TP_VEICULO car[qtd];
     char resp, continuar;
     int i;
     do
@@ -29,30 +29,36 @@ void cadastrar()
         do
         {            
             printf("Insira a marca do veiculo: ");
-            scanf(" %s", &car.marca);
+            scanf(" %s", &car[i].marca);
             printf("Insira o modelo: ");
-            scanf(" %s", &car.modelo);
+            scanf(" %s", &car[i].modelo);
             printf("Insira o ano de fabricacao: ");
-            scanf(" %d", &car.fabricacao_ano);            
+            scanf(" %d", &car[i].fabricacao_ano);            
             printf("Insira o numeros da placa: ");
-            scanf(" %s", car.placa);
+            scanf(" %s", car[i].placa);
             printf("#### Confirmar dados inseridos, digite S/N ####\n");            
-            printf("Marca: %s\n", car.marca);
-            printf("Modelo: %s\n", car.modelo);
-            printf("Ano de fabricacao: %d\n", car.fabricacao_ano);
-            printf("Placa do veiculo: %d - %s\n",car.placa);
+            printf("Marca: %s\n", car[i].marca);
+            printf("Modelo: %s\n", car[i].modelo);
+            printf("Ano de fabricacao: %d\n", car[i].fabricacao_ano);
+            printf("Placa do veiculo: %s\n",car[i].placa);
             printf("Confirmar? ");
             scanf(" %s", &resp);
         } while (!resp == 'S');
-        contador_cadastro++;
+        i++;
+        if(i == qtd)
+        {
+            printf("Atingido limite maximo de cadastro!");
+            break;
+        }
         printf("Deseja continuar S/N? ");
         scanf(" %s", &continuar);
-    } while (continuar == 'S');
+    } while (!continuar == 'S');
+    return car[qtd];
 }
 
 void menu_opcao()
 {
-    int opt, i;
+    int opt/*, i*/;
     do
     {
         printf(
@@ -81,24 +87,23 @@ void menu_opcao()
     } while (opt == 6);
 }
 
+
 int main()
 {
-    TP_VEICULO *carros[11];
+    TP_VEICULO carros[qtd];
     int i;
     
     menu_opcao();
-    for(i=0; i<11; i++)
+
+    for(i=0; i<qtd; i++)
     {
-        if(carros[i] == !NULL)
-        {
-            cadastrar();
-            printf("Cadastrado com sucesso! ");
-        }
-        else
-        {
-            printf("ERRO, capacidade excedida! ");
-            break;
-        }
+        carros[i] = cadastrar();
+    }
+
+    carros[0] = cadastrar();
+    for(i=0; i<qtd; i++)
+    {
+        printf("%s", carros->modelo);
     }
 
     
