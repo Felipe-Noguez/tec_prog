@@ -1,76 +1,59 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 
 
 
-/*typedef struct placa_veiculo
-{
-    int placa_numero;
-    char placa_letra[5];
-}TP_PLACA; */
-
-typedef struct veiculo
+typedef struct
 {
     char marca[18];
     char modelo[30];
     int fabricacao_ano;
     char placa[8];
-}TP_VEICULO;
+}Cad_veiculo;
 
-int qtd = 3;
-int contador_cadastro=0;
-TP_VEICULO cadastrar()
+void imprimirVeiculo(Cad_veiculo car)
 {
-    TP_VEICULO car[qtd];
-    char resp, continuar;
-    int i;
-    do
-    {
-        do
-        {            
-            printf("Insira a marca do veiculo: ");
-            scanf(" %s", &car[i].marca);
-            printf("Insira o modelo: ");
-            scanf(" %s", &car[i].modelo);
-            printf("Insira o ano de fabricacao: ");
-            scanf(" %d", &car[i].fabricacao_ano);            
-            printf("Insira o numeros da placa: ");
-            scanf(" %s", car[i].placa);
-            printf("#### Confirmar dados inseridos, digite S/N ####\n");            
-            printf("Marca: %s\n", car[i].marca);
-            printf("Modelo: %s\n", car[i].modelo);
-            printf("Ano de fabricacao: %d\n", car[i].fabricacao_ano);
-            printf("Placa do veiculo: %s\n",car[i].placa);
-            printf("Confirmar? ");
-            scanf(" %s", &resp);
-        } while (!resp == 'S');
-        i++;
-        if(i == qtd)
-        {
-            printf("Atingido limite maximo de cadastro!");
-            break;
-        }
-        printf("Deseja continuar S/N? ");
-        scanf(" %s", &continuar);
-    } while (!continuar == 'S');
-    return car[qtd];
+	printf("Marca: %s\n", car.marca);
+	printf("Modelo: %s\n", car.modelo);
+	printf("Ano de fabricação: %d\n", car.fabricacao_ano);
+}
+
+int qtd = 2;
+Cad_veiculo cadastrar()
+{
+    //int i, opt;
+    Cad_veiculo car;
+    
+    
+	printf("Insira a marca do veiculo: ");
+	scanf(" %s",car.marca);
+	
+	printf("Insira o modelo: ");
+	scanf(" %s",car.modelo);
+	
+	printf("Insira o ano de fabricação: ");
+	scanf(" %d", &car.fabricacao_ano);
+	
+	
+	
+	return car;    
 }
 
 void menu_opcao()
 {
-    int opt/*, i*/;
+    int opt /*, i*/;
     do
     {
         printf(
-        "1 - Listar veiculo.\n"
-        "2 - Cadastrar veiculo.\n"
-        "3 - Listar veiculos por ano de fabricao.\n"
-        "4 - Filtrar por ano.\n"
-        "5 - Listar veiculos por modelo:\n"
-        "6 - Sair.\n"
-        "Escolha uma opcao: "
-        );
-        scanf(" %d", &opt);
+            "1 - Listar veiculo.\n"
+            "2 - Cadastrar veiculo.\n"
+            "3 - Listar veiculos por ano de fabricao.\n"
+            "4 - Filtrar por ano.\n"
+            "5 - Listar veiculos por modelo:\n"
+            "6 - Sair.\n"
+            "Escolha uma opcao: ");
+        scanf("%d", &opt);
 
         switch (opt)
         {
@@ -79,7 +62,7 @@ void menu_opcao()
             break;
         case 2:
             cadastrar();
-            break;        
+            break;
         default:
             printf("Opcao invailda, digite novamente.");
             break;
@@ -90,30 +73,52 @@ void menu_opcao()
 
 int main()
 {
-    TP_VEICULO carros[qtd];
-    int i;
+	setlocale(LC_ALL, "Portuguese");
+    Cad_veiculo veiculos[2], menor, aux;
     
-    menu_opcao();
 
-    for(i=0; i<qtd; i++)
-    {
-        carros[i] = cadastrar();
+    
+	int i, j, opt, pos_menor;
+    /*do
+	{
+		menu_opcao();
+		//printf("Confirmar os dados cadastrados?\nDigite 1 para confirmar ou 0 para corrigir");
+		//scanf("%d", &opt);
+		veiculos[i] = cadastrar();
+		printf("Deseja retornar para o menu, 0=Sim, 1= sair? ");		
+		scanf("%d", &opt);
+		printf("\n%d\n",opt);				
+		i++;
+	} while(opt <= 0);*/
+	menu_opcao();
+	
+	for(i = 0; i < 2; i++){
+		veiculos[i] = cadastrar();		
+	}
+	
+	for(i=0; i<2; i++){
+        //veiculos[i] = cadastrar();
+        menor.fabricacao_ano = veiculos[i].fabricacao_ano;
+        pos_menor = i;
+        for(j = i+1; j < 2; j++){
+            if(veiculos[j].fabricacao_ano < menor.fabricacao_ano){
+                veiculos[j] = veiculos[j];
+                pos_menor = j;
+            }
+        }
+        if(pos_menor != i){
+            aux = veiculos[i];
+            veiculos[i] = veiculos[pos_menor];
+            veiculos[pos_menor] = aux;
+        }        
     }
 
-    carros[0] = cadastrar();
-    for(i=0; i<qtd; i++)
-    {
-        printf("%s", carros->modelo);
-    }
+   
+    for (i = 0; i < 2; i++)
+    	imprimirVeiculo(veiculos[i]);
 
     
     
-
-    //printf("%s", );
-    /*for(i=0; i<2; i++)
-    {
-
-    }*/
 
     return 0;
 }
